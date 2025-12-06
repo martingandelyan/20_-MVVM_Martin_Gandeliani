@@ -20,8 +20,10 @@ class MovieViewModel {
         moviesManager.getMoviesData { [weak self] newMovies in
             guard let self = self else { return }
             
-            if self.currentIndexOfMovie < newMovies.count {
-                let nextMovie = newMovies[self.currentIndexOfMovie]
+            self.allMovies.append(contentsOf: newMovies)
+            
+            if self.currentIndexOfMovie < self.allMovies.count {
+                let nextMovie = allMovies[self.currentIndexOfMovie]
                 self.movie.append(nextMovie)
                 self.currentIndexOfMovie += 1
                 self.moviesUploaded?()
