@@ -22,7 +22,7 @@ class MovieViewModel {
         moviesManager.getMoviesData { [weak self] allDownloadedMovies in
             guard let self = self else { return }
 
-            self.allMovies.append(contentsOf: allDownloadedMovies)
+            self.allMovies = allDownloadedMovies
             self.moviesUploaded?()
         }
     }
