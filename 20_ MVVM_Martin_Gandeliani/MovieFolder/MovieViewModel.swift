@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class MovieViewModel {
     var moviesManager = MoviesManager()
@@ -15,19 +16,26 @@ class MovieViewModel {
     var currentIndexOfMovie = 0
     
     var moviesUploaded: (() -> Void)?
+    var showAlert: (() -> Void)?
+    
+    func loadAllMovies() {
+        moviesManager.getMoviesData { [weak self] allDownloadedMovies in
+            guard let self = self else { return }
+
+            self.allMovies.append(contentsOf: allDownloadedMovies)
+            self.moviesUploaded?()
+        }
+    }
     
     func getNextMovie() {
-        moviesManager.getMoviesData { [weak self] newMovies in
-            guard let self = self else { return }
-            
-            self.allMovies.append(contentsOf: newMovies)
-            
             if self.currentIndexOfMovie < self.allMovies.count {
                 let nextMovie = allMovies[self.currentIndexOfMovie]
                 self.movie.append(nextMovie)
                 self.currentIndexOfMovie += 1
                 self.moviesUploaded?()
+            } else {
+                self.showAlert?()
             }
         }
     }
-}
+

@@ -17,6 +17,7 @@ class MovieViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         setupUi()
         bindViewModel()
+        viewModel.loadAllMovies()
     }
     
     func setupUi() {
@@ -59,6 +60,12 @@ class MovieViewController: UIViewController, UITableViewDelegate {
             guard let self = self else { return }
             self.movie = self.viewModel.movie
             self.moviesTableView.reloadData()
+        }
+        
+        viewModel.showAlert = { [weak self] in
+            let alert = UIAlertController(title: "ფილმების მაქსიმალური რაოდენობა ჩაიტვირთა", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "დახურვა", style: .default, handler: nil))
+            self?.present(alert, animated: true)
         }
     }
 }
